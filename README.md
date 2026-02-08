@@ -13,15 +13,15 @@
 
 | Splash Screen | Main Screen | Loading State |
 | :---: | :---: | :---: |
-| ![Splash](screenshot/splash%20screen.jpg) | ![Main](screenshot/main%20screen.jpg) | ![Loading](screenshot/loading%20screen.jpg) |
+| <img src="screenshot/splash screen.jpg" height="450"> | <img src="screenshot/main screen.jpg" height="450"> | <img src="screenshot/loading screen.jpg" height="450"> |
 
 | Search by Name | English Recipe | Hindi Recipe |
 | :---: | :---: | :---: |
-| ![Search Name](screenshot/search%20dish%20by%20name.jpg) | ![English](screenshot/english%20recipe%20and%20ingridents.jpg) | ![Hindi](screenshot/hindi%20recipe%20and%20ingridents.jpg) |
+| <img src="screenshot/search dish by name.jpg" height="450"> | <img src="screenshot/english recipe and ingridents.jpg" height="450"> | <img src="screenshot/hindi recipe and ingridents.jpg" height="450"> |
 
-| Search by Ingredients |
-| :---: |
-| ![Search Ing](screenshot/search%20by%20ingridents.jpg) |
+| Search by Ingredients | Suggested Dishes |
+| :---: | :---: |
+| <img src="screenshot/search by ingridents.jpg" height="450"> | <img src="screenshot/dishes list.jpg" height="450"> |
 
 ---
 
