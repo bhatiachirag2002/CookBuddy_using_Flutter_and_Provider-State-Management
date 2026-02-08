@@ -145,14 +145,17 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: height * 0.01),
-          child: Image.asset("assets/photos/robot.png", width: width * 0.8),
+        Flexible(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: height * 0.01),
+            child: Image.asset("assets/photos/robot.png"),
+          ),
         ),
         Text(
           languageVM.language == "Hindi"
               ? "Cook Buddy में आपका स्वागत है!"
               : "Welcome to Cook Buddy!",
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: width * 0.06,
             color: CustomColors.orange,
@@ -169,9 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset("assets/photos/robot2.png", width: width * 0.9),
+        Flexible(
+          child: Image.asset("assets/photos/robot2.png", width: width * 0.9),
+        ),
         Text(
-          "Hindi" == languageVM ? "कृपया प्रतीक्षा करें" : "Please Wait!!!",
+          languageVM.language == "Hindi"
+              ? "कृपया प्रतीक्षा करें"
+              : "Please Wait!!!",
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: width * 0.05,
             color: CustomColors.black,
@@ -274,6 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: 5),
       child: TextFormField(
+        cursorColor: CustomColors.orange,
         controller: _controller,
         style: TextStyle(color: CustomColors.black, fontSize: width * 0.04),
         decoration: InputDecoration(
