@@ -1,7 +1,6 @@
 import 'package:cook_buddy/utils/imports.dart';
 
-
-class RecipeViewModel extends ChangeNotifier{
+class RecipeViewModel extends ChangeNotifier {
   RecipeResponse response = RecipeResponse();
   bool isLoading = false;
 
@@ -10,44 +9,27 @@ class RecipeViewModel extends ChangeNotifier{
     notifyListeners();
     try {
       final result = await GeminiApiService.fetchGeminiResponse(userInput);
+      final Map<String, dynamic> data = json.decode(result);
+      final String type = data['type'] ?? '';
 
-      if (result.contains("Sorry")) {
-        response = RecipeResponse(error: result);
-      } else if (result.contains("Ingredients:") && result.contains("Recipe:")) {
-        final title = result.split("Title:")[1].split("Title (Hindi):")[0].trim();
-        final titleHindi = result.split("Title (Hindi):")[1].split("Ingredients:")[0].trim();
-        final ingredientsEnglish = result.split("Ingredients:")[1].split("Ingredients (Hindi):")[0].trim();
-        final ingredientsHindi = result.split("Ingredients (Hindi):")[1].split("Recipe:")[0].trim();
-        final recipeEnglish = result.split("Recipe:")[1].split("Recipe (Hindi):")[0].trim();
-        final recipeHindi = result.split("Recipe (Hindi):")[1].trim();
-
+      if (type == 'recipe') {
         response = RecipeResponse(
-          title: title,
-          titleHindi: titleHindi,
-          ingredients: ingredientsEnglish.split("\n").map((e) => e.replaceAll("*", "").trim()).where((e) => e.isNotEmpty).toList(),
-          ingredientsHindi: ingredientsHindi.split("\n").map((e) => e.replaceAll("*", "").trim()).where((e) => e.isNotEmpty).toList(),
-          steps: recipeEnglish.split("\n").map((e) => e.replaceAll(RegExp(r'^\d+\.\s*'), '').trim()).where((e) => e.isNotEmpty).toList(),
-          stepsHindi: recipeHindi.split("\n").map((e) => e.replaceAll(RegExp(r'^\d+\.\s*'), '').trim()).where((e) => e.isNotEmpty).toList(),
+          title: data['title'] ?? '',
+          titleHindi: data['titleHindi'] ?? '',
+          ingredients: List<String>.from(data['ingredients'] ?? []),
+          ingredientsHindi: List<String>.from(data['ingredientsHindi'] ?? []),
+          steps: List<String>.from(data['steps'] ?? []),
+          stepsHindi: List<String>.from(data['stepsHindi'] ?? []),
         );
+      } else if (type == 'suggestions') {
+        response = RecipeResponse(
+          dishList: List<String>.from(data['dishList'] ?? []),
+          dishListHindi: List<String>.from(data['dishListHindi'] ?? []),
+        );
+      } else if (type == 'error') {
+        response = RecipeResponse(error: data['message'] ?? 'Sorry');
       } else {
-        final dishesEnglishRaw = result.split("English")[1].split("Hindi")[0].trim();
-        final dishesHindiRaw = result.split("Hindi")[1].trim();
-
-        List<String> parseDishList(String raw) {
-          return raw
-              .split('\n')
-              .map((e) => e.replaceAll("*", "").trim())
-              .where((e) =>
-          e.isNotEmpty &&
-              e.toLowerCase() != "dishes:" &&
-              e.toLowerCase() != "व्यंजन:")
-              .toList();
-        }
-
-        response = RecipeResponse(
-          dishList: parseDishList(dishesEnglishRaw),
-          dishListHindi: parseDishList(dishesHindiRaw),
-        );
+        response = RecipeResponse(error: "Unexpected response format");
       }
     } catch (e) {
       response = RecipeResponse(error: "Something went wrong!");
@@ -55,5 +37,4 @@ class RecipeViewModel extends ChangeNotifier{
     isLoading = false;
     notifyListeners();
   }
-
 }
